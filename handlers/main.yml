@@ -1,0 +1,14 @@
+---
+# handlers file for ansible-puppet-server
+
+- name: restart puppet
+  service:
+    name: puppet
+    state: restarted
+  become: true
+
+- name: restart puppetserver
+  service:
+    name: puppetserver
+    state: restarted
+  become: true

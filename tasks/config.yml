@@ -1,0 +1,35 @@
+---
+- name: service | Configuring Debian /etc/default/puppetserver
+  template:
+    src: etc/default/puppetserver.j2
+    dest: /etc/default/puppetserver
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  become: true
+  notify:
+    - restart puppetserver
+  when: ansible_os_family == "Debian"
+
+- name: config | Configuring Puppet
+  template:
+    src: etc/puppetlabs/puppet/puppet.conf.j2
+    dest: /etc/puppetlabs/puppet/puppet.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  become: true
+  notify:
+    - restart puppet
+
+- name: config | Configuring Puppet auth.conf
+  template:
+    src: etc/puppetlabs/puppet/auth.conf.j2
+    dest: /etc/puppetlabs/puppet/auth.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  become: true
+  notify:
+    - restart puppet
+    - restart puppetserver

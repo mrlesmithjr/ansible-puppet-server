@@ -1,0 +1,20 @@
+---
+- name: debian | Adding Puppet Repo
+  apt:
+    deb: "https://apt.puppetlabs.com/puppet{{ puppet_server_major_version }}-release-{{ ansible_distribution_release|lower }}.deb"
+    state: present
+  become: true
+  register: _puppet_repo
+
+- name: debian | Updating APT Cache
+  apt:
+    update_cache: true
+  become: true
+  when: _puppet_repo['changed']
+
+- name: debian | Installing Puppet Server
+  apt:
+    name: "puppetserver={{ puppet_server_minor_version }}-1{{ ansible_distribution_release|lower }}"
+    state: present
+  become: true
+  when: ansible_distribution == "Ubuntu"

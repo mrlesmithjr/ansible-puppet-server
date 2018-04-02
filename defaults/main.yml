@@ -1,0 +1,68 @@
+---
+# defaults file for ansible-puppet-server
+
+puppet_server_agent_config:
+  environment: production
+  runinterval: 1h
+  server: "{{ hostvars[inventory_hostname]['ansible_' + puppet_server_agent_interface ]['ipv4']['address'] }}"
+  sourceaddress: "{{ hostvars[inventory_hostname]['ansible_' + puppet_server_agent_interface ]['ipv4']['address'] }}"
+
+puppet_server_agent_interface: enp0s8
+
+puppet_server_autosign_clients: false
+
+puppet_server_file_access:
+  - path: /puppet/v3/environments
+    method:
+      - find
+    allow: "*"
+  - path: ~ ^/puppet/v3/catalog/([^/]+)$
+    method:
+      - find
+    allow: $1
+  - path: ~ ^/puppet/v3/node/([^/]+)$
+    method:
+      - find
+    allow: $1
+  - path: ~ ^/puppet/v3/report/([^/]+)$
+    method:
+      - save
+    allow: $1
+  - path: ~ ^/puppet/v3/facts/([^/]+)$
+    method:
+      - save
+    allow: $1
+  - path: /puppet/v3/file
+    allow: "*"
+  - path: /puppet/v3/status
+    method:
+      - find
+    allow: "*"
+  - path: /puppet-ca/v1/certificate_revocation_list/ca
+    method:
+      - find
+    allow: "*"
+  - path: /puppet-ca/v1/certificate/ca
+    auth: any
+    method:
+      - find
+    allow: "*"
+  - path: /puppet-ca/v1/certificate/
+    auth: any
+    method:
+      - find
+    allow: "*"
+  - path: /puppet-ca/v1/certificate_request
+    auth: any
+    method:
+      - find
+      - save
+    allow: "*"
+  - path: /
+    auth: any
+
+puppet_server_major_version: 5
+
+puppet_server_minor_version: 5.3.0
+
+puppet_server_pri_domain_name: vagrant.local

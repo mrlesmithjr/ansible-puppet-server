@@ -1,0 +1,12 @@
+---
+- name: service | Enabling Puppet Service
+  service:
+    name: puppet
+    enabled: true
+  become: true
+
+- name: service | Enabling Puppet Server Service
+  service:
+    name: puppetserver
+    enabled: true
+  become: true

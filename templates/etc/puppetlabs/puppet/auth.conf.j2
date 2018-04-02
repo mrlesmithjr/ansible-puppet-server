@@ -1,0 +1,17 @@
+{{ ansible_managed|comment }}
+
+{% if puppet_server_file_access != [] %}
+{%   for item in puppet_server_file_access %}
+path /puppet-ca/v1/certificate/ca
+{%     if item['auth'] is defined %}
+auth {{ item['auth'] }}
+{%     endif %}
+{%     if item['method'] is defined %}
+method {{ item['method']|join(', ') }}
+{%     endif %}
+{%     if item['allow'] is defined %}
+allow {{ item['allow'] }}
+{%     endif %}
+
+{%   endfor %}
+{% endif %}

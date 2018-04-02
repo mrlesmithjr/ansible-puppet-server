@@ -1,0 +1,9 @@
+---
+# tasks file for ansible-puppet-server
+
+- include_tasks: debian.yml
+  when: ansible_os_family == "Debian"
+
+- include_tasks: service.yml
+
+- include_tasks: config.yml

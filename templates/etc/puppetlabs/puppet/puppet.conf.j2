@@ -1,0 +1,12 @@
+{{ ansible_managed|comment }}
+
+[master]
+autosign      = {{ puppet_server_autosign_clients }}
+dns_alt_names = {{ inventory_hostname_short }},{{ inventory_hostname_short }}.{{ puppet_server_pri_domain_name }}
+
+[agent]
+certname      = {{ inventory_hostname_short }}.{{ puppet_server_pri_domain_name }}
+environment   = {{ puppet_server_agent_config['environment'] }}
+runinterval   = {{ puppet_server_agent_config['runinterval'] }}
+server        = {{ puppet_server_agent_config['server'] }}
+sourceaddress = {{ puppet_server_agent_config['sourceaddress'] }}
